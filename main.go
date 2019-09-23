@@ -1,22 +1,22 @@
-//go:generate fileb0x filebox.json
+//go:generate go run assets-generator.go
+
 package main
 
 import (
-	"github.com/RadhiFadlillah/shiori/cmd"
-	db "github.com/RadhiFadlillah/shiori/database"
+	"github.com/go-shiori/shiori/internal/cmd"
+	"github.com/sirupsen/logrus"
+
+	// Database driver
+	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/mattn/go-sqlite3"
+
+	// Add this to prevent it removed by go mod tidy
+	_ "github.com/shurcooL/vfsgen"
 )
 
 func main() {
-	sqliteDB, err := db.OpenSQLiteDatabase()
-	checkError(err)
-
-	cmd.DB = sqliteDB
-	cmd.Execute()
-}
-
-func checkError(err error) {
+	err := cmd.ShioriCmd().Execute()
 	if err != nil {
-		panic(err)
+		logrus.Fatalln(err)
 	}
 }

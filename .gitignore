@@ -1,10 +1,9 @@
-# Exclude sample
-sample.txt
-
 # Exclude config file
 .vscode/
 *.toml
 
-# Exclude generated file
-shiori*
-*.db
+# Exclude executable file
+/shiori*
+
+# Exclude development data
+/dev-data
